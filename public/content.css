@@ -1,0 +1,13 @@
+/* Content script styles */
+#highlight-saver-btn {
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+#highlight-saver-btn:hover {
+  transform: scale(1.05);
+}
+
+#highlight-saver-btn:active {
+  transform: scale(0.95);
+}
