@@ -25,7 +25,7 @@ A powerful Chrome extension that lets you **highlight text on any website**, sav
 2. **Save** – Click the floating "💾 Save" button.  
 3. **View** – Open the extension popup to see your highlights.  
 4. **Summarize** – Click "✨ Summarize" to generate a short AI summary.  
-5. **Manage** – Delete saved highlights or revisit their original pages.  
+5. **Manage** – Delete saved highlights.  
 
 
 
