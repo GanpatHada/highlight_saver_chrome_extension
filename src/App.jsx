@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import { CohereClientV2 } from "cohere-ai";
+import { RiAiGenerate2, RiDeleteBin6Line } from "react-icons/ri";
 
 const cohere = new CohereClientV2({
   token: import.meta.env.VITE_COHERE_API_KEY,
@@ -38,11 +39,6 @@ function App() {
         }
       }
     );
-  };
-
-  const openUrl = (url) => {
-    console.log("[Popup] Opening URL:", url);
-    chrome.tabs.create({ url });
   };
 
   const summarizeHighlight = async (id, text) => {
@@ -127,7 +123,7 @@ function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>💾 Highlight Saver</h1>
+        <h1>Highlight Saver</h1>
         <p className="subtitle">Your saved text selections</p>
       </header>
 
@@ -152,38 +148,44 @@ function App() {
                       {formatDate(highlight.timestamp)}
                     </span>
                   </div>
-                  <button
-                    className="delete-btn"
-                    onClick={() => deleteHighlight(highlight.id)}
-                    title="Delete highlight"
-                  >
-                    🗑️
-                  </button>
+                  <div className="highlight-actions">
+                    <button
+                      className="summarize-btn"
+                      onClick={() =>
+                        summarizeHighlight(highlight.id, highlight.text)
+                      }
+                      disabled={summarizing[highlight.id]}
+                    >
+                      {summarizing[highlight.id] ? (
+                        <>
+                          <i>
+                            <RiAiGenerate2 />
+                          </i>
+                          <span>Summarizing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <i>
+                            <RiAiGenerate2 />
+                          </i>
+                          <span>Summarize</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => deleteHighlight(highlight.id)}
+                      title="Delete highlight"
+                    >
+                      <i>
+                        <RiDeleteBin6Line />
+                      </i>
+                    </button>
+                  </div>
                 </div>
 
                 <div className="highlight-content">
                   <p className="highlight-text">{highlight.text}</p>
-                </div>
-
-                <div className="highlight-footer">
-                  <button
-                    className="visit-btn"
-                    onClick={() => openUrl(highlight.url)}
-                    title="Visit original page"
-                  >
-                    🔗 Visit Page
-                  </button>
-                  <button
-                    className="summarize-btn"
-                    onClick={() =>
-                      summarizeHighlight(highlight.id, highlight.text)
-                    }
-                    disabled={summarizing[highlight.id]}
-                  >
-                    {summarizing[highlight.id]
-                      ? "⏳ Summarizing..."
-                      : "📝 Summarize"}
-                  </button>
                 </div>
 
                 {summaries[highlight.id] && (
@@ -201,12 +203,6 @@ function App() {
           </div>
         )}
       </main>
-
-      <footer className="footer">
-        <button className="refresh-btn" onClick={loadHighlights}>
-          🔄 Refresh
-        </button>
-      </footer>
     </div>
   );
 }

@@ -1,0 +1,37 @@
+`vite.config.js`
+- This is the configuration file for the Vite bundler.
+- It's set up for a React project.
+- It configures the build output directory to be `dist` and specifies the naming conventions for the output files.
+- The development server is configured to run on port 3000.
+
+`public/background.js`
+- This is the service worker for the Chrome extension, which runs in the background.
+- It manages all interactions with the browser's storage.
+- It handles three main actions:
+    - `saveHighlight`: Saves the highlighted text, URL, and timestamp to `chrome.storage.local`. It keeps a maximum of 100 highlights.
+    - `getHighlights`: Retrieves all saved highlights from storage.
+    - `deleteHighlight`: Removes a specific highlight from storage.
+
+`public/content.js`
+- This script is injected into every webpage the user visits.
+- It detects when a user selects text on a page and displays a "💾 Save" button near the selection.
+- When the button is clicked, it sends the selected text and page information to `background.js` to be saved.
+- It provides visual feedback to the user, indicating whether the save was successful or not.
+
+`public/manifest.json`
+- This is the core configuration file for the Chrome extension.
+- It defines the extension's name, version, and description.
+- It declares the necessary permissions, such as accessing storage and the active tab.
+- It registers the `background.js` service worker and the `content.js` content script.
+- It specifies that `index.html` should be used as the popup when the user clicks the extension icon.
+
+`src/App.jsx`
+- This is the main user interface of the extension's popup, built using React.
+- It displays a list of all the highlights that the user has saved.
+- Users can view their highlights, open the original page, or delete a highlight.
+- It includes a feature to summarize the highlighted text using the Cohere AI API.
+- It handles loading states and shows a message if no highlights have been saved yet.
+
+`src/main.jsx`
+- This is the entry point for the React application.
+- It renders the main `App` component into the `index.html` page, which serves as the extension's popup.
